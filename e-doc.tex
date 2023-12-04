@@ -1,0 +1,198 @@
+\documentclass[11pt,english]{smfart}
+
+\usepackage[T1]{fontenc}
+\usepackage[english,francais]{babel}
+
+\usepackage{amssymb,url,xspace,smfthm}
+\usepackage{tikz}
+
+\def\meta#1{$\langle${\it #1}$\rangle$}
+\newcommand{\myast}{($\star$)\ }
+%\makeatletter
+ %   \def\ps@copyright{\ps@empty
+  %  \def\@oddfoot{\hfil\small\copyright 2023, Friedrich-Alexander-Universität Erlangen-Nürnberg}}
+%\makeatother
+
+\newcommand{\SmF}{Soci\'et\'e ma\-th\'e\-ma\-ti\-que de France}
+\newcommand{\SMF}{Soci\'et\'e Ma\-th\'e\-Ma\-ti\-que de France}
+\newcommand{\BibTeX}{{\scshape Bib}\kern-.08em\TeX}
+\newcommand{\T}{\S\kern .15em\relax }
+\newcommand{\AMS}{$\mathcal{A}$\kern-.1667em\lower.5ex\hbox
+        {$\mathcal{M}$}\kern-.125em$\mathcal{S}$}
+\newcommand{\resp}{\emph{resp}.\xspace}
+\newcommand*{\QEDB}{\null\nobreak\hfill\ensuremath{\square}}
+
+\tolerance 400
+\pretolerance 200
+
+
+\title{Der Satz von Radon-Nikodym}
+\date {November 2023}
+\author{Christopher Sorg}
+
+\address{Department of mathematics, Friedrich-Alexander-Universität Erlangen-Nürnberg\\
+Cauerstraße 11\\
+91058 Erlangen\\
+Germany}
+\email{chr.sorg@fau.de}
+%\urladdr{http://smf.emath.fr/}
+\keywords{Measure Theory, Probability Theory}
+
+\begin{document}
+\def\smfbyname{}
+
+\begin{abstract}
+Dieses Dokument dient den neugierigen Studenten unter euch, den Satz von Radon-Nikodym einzuführen und anschließend interessante Anwendungen zu betrachten.
+\end{abstract}
+\maketitle
+
+\tableofcontents
+
+\section{Radon-Nikodym und eine wichtige Folgerung}
+\textbf{Definition 1.1:} Sei \((X,\Sigma)\) ein Messraum, \(\mu, \, \nu\) Maße auf \(\Sigma\).
+\begin{enumerate}
+    \item \(\nu\) ist absolut stetig bezüglich \(\mu\), kurz \(\nu \ll \mu\) \(:\Leftrightarrow\)
+    \begin{equation}
+        \forall A \in \Sigma \, : \, (\mu(A) = 0 \, \Rightarrow \nu(A) = 0).
+    \end{equation}
+    \item (Die Wohldefiniertheit für den folgenden Ausdruck ist Analysis3-Lechner/H5.1 zu entnehmen.) \(\nu\) besitzt Dichte bezüglich \(\mu\) \(:\Leftrightarrow\)
+    \begin{equation}
+        \exists f \in E \, \forall A \in \Sigma \, : \, \nu(A) = \int_{A} f \, d\mu.
+    \end{equation}
+    Kurznotation (Radon-Nikodym-Ableitung):
+    \begin{equation}
+        f := \frac{d\nu}{d\mu}
+    \end{equation}
+    \item \(\mu\) ist orthogonal/singulär zu \(\nu\), kurz \(\mu \perp \nu\) \(:\Leftrightarrow\)
+    \begin{equation}
+        \exists A \in \Sigma \, : \, (\mu(A) = 0 \, \land \nu(A^c) = 0).
+    \end{equation}
+\end{enumerate}
+\vspace{0.5cm}
+Für diese Begrifflichkeiten gilt der folgende erstaunliche Satz:\\[0.5cm]
+\textbf{Satz 1.2 (Radon-Nikodym):} Im setting von Definition 1.1 gilt:
+\begin{enumerate}
+    \item ((Definition 1.1 2. ist erfüllt.) \(\Rightarrow \, \nu \ll \mu\)).
+    \item Ist \(\mu\) \(\sigma\)-endlich, so gilt \(\Leftrightarrow\) in 1.
+\end{enumerate}
+\vspace{0.5cm}
+\textbf{Bemerkung:} \begin{itemize}
+    \item Man kann zeigen (etwas technisch), dass die Radon-Nikodym-Ableitung in Definition 1.1 2. eindeutig ist \(\mu\)-f.ü.
+    \item Ein sehr einfaches Beispiel für Definition 1.1 3. ist \(\lambda \perp \delta_0\) auf \((\mathbb{R},\mathcal{B}(\mathbb{R}))\).
+    \item Der Beweis von Satz 1.2 1. ist trivial; die Aussage folgt direkt aus der Definition und Analysis3-Lechner/H5.1. Interessanter ist 2.; der Beweis hierzu ist allerdings \textbf{sehr} technisch und aufwändig.
+    \item Die \(\sigma\)-Endlichkeit von \(\mu\) ist notwendig für die Äquivalenz; für ein Gegenbeispiel betrachte \(\nu = \lambda\) und \(\mu\) als Zählmaß auf \(([0,1],\mathcal{B}([0,1]))\). Angenommen, Satz 1.2 würde gelten. Nun ist:
+    \begin{equation}
+        0 = \lambda(\{x\}) = \int_{\{x\}} f \,d\mu = f(x) \, \forall \{x\} \in \mathcal{B}([0,1]).
+    \end{equation}
+    Also muss \(f\) die Nullfunktion sein. Nun ist aber \(\lambda([0,1])=1\), ein Widerspruch.
+\end{itemize}
+\vspace{0.5cm}
+Wir werden hierzu im nächsten Kapitel ein Beispiel betrachten, führen aber zuvor noch ein sehr wichtiges Korollar auf:\\[0.5cm]
+\textbf{Korollar 1.3 (Lebesguescher Zerlegungssatz):} Seien \((X,\Sigma)\) ein Messraum und \(\mu, \, \nu\) zwei \(\sigma\)-endliche Maße auf \(\Sigma\). Dann existiert die \textbf{eindeutige} Zerlegung:
+\begin{equation}
+    \nu = \nu_a + \nu_s,
+\end{equation}
+wobei \(\nu_a \ll \mu\) und \(\nu_s \perp \mu\).\\[0.5cm]
+\textbf{Bemerkung:} Man kann \(\sigma\)-endliche Maße \(\mu\) auf \((\mathbb{R}^n, \mathcal{B}(\mathbb{R}^n))\) mit \(\mu_s \ll \lambda^n\) noch weiter (eindeutig) zerlegen, nämlich in einen sogenannten absolut-stetigen Teil, einen "Punktanteil" und einen "singulär-stetigen Teil", i.e.
+\begin{equation}
+    \mu = \mu_a + \mu_p + \mu_{sc}.
+\end{equation}
+Das sieht man wie folgt ein: Zunächst definieren wir die Begriffe konkret:
+\begin{equation}
+    \frac{d\mu_p}{d\mu} := \textbf{1}_{S},
+\end{equation}
+also insbesondere:
+\begin{equation}
+    \mu_p (A) = \sum_{\omega \in S} \mu(\{\omega\}) \delta_{\omega}(A) \, \forall A \in \Sigma,
+\end{equation}
+wobei \(S := \{\omega \in X \, | \, \mu(\{\omega\}) > 0\}\), \, \(\{\omega\} \in \Sigma\), sowie:
+\begin{equation}
+    \frac{d\mu_c}{d\mu} := \textbf{1}_{S^c},
+\end{equation}
+also insbesondere:
+\begin{equation}
+    \mu_c(\{\omega\}) = 0.
+\end{equation}
+Ein Maß \(\mu_{sc}\) auf \((\mathbb{R}^n,\mathcal{B}(\mathbb{R}^n))\) heißt weiter singulär-stetig, falls \(\mu_{sc} \perp \lambda^n\) gilt und dessen Punktanteil 0 ist.\\
+Diese Definitionen sind wohldefiniert, da \(S\) abzählbar und in \(\Sigma\) ist (leichte Übungsaufgabe). Mit diesen Definitionen und Korollar 1.3 folgt dann zunächst:
+\begin{equation}
+    \mu = \mu_p + \mu_c
+\end{equation}
+und mit:
+\begin{equation}
+    \mu_s = \mu_p + \mu_{sc}
+\end{equation}
+folgt dann die Behauptung. \QEDB
+\section{Anwendungen}
+Dieses Kapitel beschäftigt sich mit Wahrscheinlichkeitstheorie. Ein gewisses stochastisches Grundwissen hierfür wird also vorausgesetzt, sonst würde dieses Dokument komplett ausarten.\\
+Im Folgenden sei stets \(X \in L^1(\Omega,\Sigma,\mathbb{P})\) eine integrierbare Zufallsvariable über einem Wahrscheinlichkeitsraum (Warnung: Für die Wahrscheinlichkeitstheorie ist es immens wichtig sich noch einmal den Unterschied zwischen integrierbar und Existenz des Integrals klar zu machen!).\\
+Kurze Erinnerung: Gegeben \(A \in \Sigma\) mit \(\mathbb{P}(A) > 0\) ist das bedingte Wahrscheinlichkeitsmaß (gegeben \(A\)) definiert durch:
+\begin{equation}
+    \mathbb{P}(\cdot | A) : \Sigma \to [0,1], \, \mathbb{P}(B | A) := \frac{\mathbb{P}(B \cap A)}{\mathbb{P}(A)}.
+\end{equation}
+Unser Ziel hier wird es nun sein, als Anwendung uns kurz dem bedingten Erwartungswert zuzuwenden. Dafür sollten wir diesen natürlich kurz einführen:\\
+\textbf{Definition 2.1 (Bedingter Erwartungswert):} Mithilfe von Satz 1.2 (Radon-Nikodym) erhalten wir für ein Ereignis \(A\):
+\begin{equation}
+    \mathbb{E}[X | A] = \int_{\Omega} X \frac{d\mathbb{P}(\cdot | A)}{d\mathbb{P}} \,d\mathbb{P} = \int_{\Omega} X \frac{\textbf{1}_A}{\mathbb{P}(A)} \,d\mathbb{P} = \frac{\mathbb{E}[X,A]}{\mathbb{P}(A)}
+\end{equation}
+Gegeben sei nun \(\Omega = \dot{\bigcup}_{i=1}^n A_i\), i.e. \(\Omega\) in einer Partition in \(n\) Ereignisse, zudem sei \(\mathcal{F} := \sigma (A_1,...,A_n)\). Dann definieren wir:
+\begin{equation}
+    \mathbb{E}[X | \mathcal{F}] := \sum_{i=1}^n \mathbb{E}[X | A_i] \textbf{1}_{A_i} = \sum_{i=1}^n \frac{\mathbb{E}[X,A_i]}{\mathbb{P}(A_i)} \textbf{1}_{A_i}
+\end{equation}
+als die bedingte Erwartung von \(X\) (gegeben der \(\sigma\)-Algebra \(\mathcal{F}\)).\\
+Wir nennen dann weiter die Abbildung:
+\begin{equation}
+    f : \{z_1,...,z_n\} \to \mathbb{R}, \, f(z) := \mathbb{E}[X | Z = z]
+\end{equation}
+die faktorisierte bedingte Erwartung von \(X\) (gegeben \(Z\)).\\[0.5cm]
+
+\textbf{Bemerkung:} Man spricht hier von Faktorisierung, da das zugehörige Diagramm zu:
+\begin{equation}
+    \mathbb{E}[X | \mathcal{F}] = f \circ Z
+\end{equation}
+kommutiert.\\[0.5cm]
+
+Einer der Hauptuntersuchungspunkte der Wahrscheinlichkeitstheorie ist es, (stetige) "Modellwechsel" zu betrachten. Wir werden uns hier also einem Wechsel eines bedingten Erwartungswertes kurz widmen. Doch um die dabei auftretenden Ausdrücke überhaupt zu verstehen (und Wohldefiniertheit zu gewährleisten), benötigen wir noch kurz folgendes Resultat:\\[0.5cm]
+\textbf{Satz 2.2 (Radon-Nikodym-Kettenregel):} Seien \(\mu, \, \nu, \, \sigma\) \(\sigma\)-endliche Maße auf dem Messraum \((\Omega,\Sigma)\) mit \(\mu \ll \nu, \, \nu \ll \sigma\). Dann gilt:
+\begin{enumerate}
+    \item \(\mu \ll \sigma\) (Transitivität),
+    \item \(\frac{d\mu}{d\sigma} = \frac{d\mu}{d\nu} \frac{d\nu}{d\sigma} \, \, \sigma-\text{f.ü.}\)
+\end{enumerate}
+\textsc{Beweis:} \begin{enumerate}
+    \item Betrachte die entsprechenden Lebesgue-Zerlegungen (Korollar 1.3). Daraus folgt dann direkt:
+    \begin{equation}
+        \int_{A} d\mu = \int_{A} h \,d\sigma
+    \end{equation}
+    für eine nicht-negative messbare Funktion \(h\) und \(A \in \Sigma\).
+    \item Es gilt nun:
+    \begin{equation}
+        \int_{A} d\mu = \int_{A} f \,d\nu \stackrel{(*)}{=} \int_{A} fg \,d\sigma,
+    \end{equation}
+    also insbesondere:
+    \begin{equation}
+        \int_{A} h \,d\sigma \stackrel{(*)}{=} \int_{A} fg \,d\sigma \stackrel{1.}{=} \mu(A)
+    \end{equation}
+    für nicht-negative messbare Funktionen \(f, \, g\).\\
+    Nun ist noch (*) zu verifizieren. Das sieht man wie folgt ein:\\
+    Betrachte \(f(x) := \sum_{i=1}^n \alpha_i \textbf{1}_{A_i}(x)\) für \(\alpha_i > 0\) und p.w. disjunkte \(A_i \in \Sigma\). Für dieses \(f\) folgt direkt aus der Definition des Integrals:
+    \begin{equation}
+        \int_{\Omega} fg \,d\sigma = \int_{\Omega} f \,d\nu.
+    \end{equation}
+    Für allgemeinere \(f\) folgt die Aussage dann aus monotoner Konvergenz (das funktioniert aufgrund der \(\sigma\)-Endlichkeit!). \QEDB
+\end{enumerate}
+\vspace{0.5cm}
+Im Allgemeinen wird diese Kettenregel sehr nützlich sein in der Wahrscheinlichkeitstheorie. Zum Abschluss und zur Verdeutlichung schauen wir uns nun noch ein einfaches Beispiel an:\\[0.5cm]
+\textbf{Proposition 2.3 (Änderung der bedingten Erwartung):} Seien \(\mu, \, \nu\) zwei Wahrscheinlichkeitsmaße auf \((\Omega,\Sigma)\) mit \(\nu \ll \mu\), sowie Radon-Nikodym Ableitung \(\frac{d\nu}{d\mu}(\omega) =: \rho(\omega)\). Sei \(\Sigma_S \subseteq \Sigma\) eine Unter-\(\sigma\)-Algebra. Dann gilt für jede \(\Sigma\)-messbare Zufallsvariable \(X\) gilt dann:
+\begin{equation}
+    \mathbb{E}_{\nu} [X | \Sigma_S] = \frac{\mathbb{E}_{\mu}[\rho X | \Sigma_S]}{\mathbb{E}_{\mu}[\rho | \Sigma_S]}.
+\end{equation}
+\textsc{Beweis:} Wir betrachten hier nur den diskreten Fall, i.e. \(\Omega = \dot{\bigcup}_{i=1}^n A_i\) mit \(\mu(A_i) > 0\) für alle \(i\). Der allgemeine Fall gilt auch, benötigt aber mehr Einführung/Eigenschaften des bedingten Erwartungswerts (wird sicherlich in der Wahrscheinlichkeitstheorie dann betrachtet). Für dieses setting erhalten wir ganz elementar (beachte: hier gilt demnach \(\Sigma_S = \sigma(A_1,...,A_n)\)):
+\begin{equation}
+    \mathbb{E}_{\nu}[X | A_i] = \frac{\int_{A_i} X \,d\nu}{\int_{A_i} d\nu} = \frac{\int_{A_i} X \rho \,d\mu}{\int_{A_i} \rho \,d\mu} = \frac{\int_{A_i} X \rho \,d\mu}{\mu(A_i)} \cdot \frac{\mu(A_i)}{\int_{A_i} \rho \,d\mu} = \frac{\mathbb{E}_{\mu}[\rho X | A_i]}{\mathbb{E}_{\mu} [\rho | A_i]},
+\end{equation}
+also die Aussage. \QEDB
+\\[0.5cm]
+Es gibt noch weitere Anwendungen für Radon-Nikodym bzw. der diesbezüglichen Zerlegung. In frei-diskontinuierlichen Problemen beispielsweise ist man daran interessiert, das "distributionale (Vektor-)Maß" einer \(\mathcal{BV}\)-Funktion (beschränkte Variation) zu zerlegen. Um diese Anwendung allerdings verstehen zu können, benötigt es einige Vorlesungen an Vorwissen, wie Funktionalanalysis, etwas Topologie, sowie 1-2 Vorlesungen über partielle Differentialgleichungen und eine über Variationsrechnung.
+\end{document}
+
+
